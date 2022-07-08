@@ -1,48 +1,48 @@
 package services;
-import java.util.List;
+
 import DAO.JuryDao;
 import classes.Jury;
 import interfaces.IService;
+import java.util.List;
 
 /**
- * 
+ *
  * @author Logan
  */
 public class JuryService implements IService<Jury> {
-    
-    JuryDao juryDao;
 
-    public JuryService(){
-        juryDao = new JuryDao();
-    }
+  JuryDao juryDao;
 
-    @Override
-    public boolean create(Jury t) {
-        return juryDao.create(t);
-    }
+  public JuryService() {
+    juryDao = new JuryDao();
+  }
 
-    @Override
-    public List<Jury> findAll() {
-        return juryDao.getAll();
-    }
+  @Override
+  public boolean create(Jury t) {
+    return juryDao.create(t);
+  }
 
-    @Override
-    public boolean update(Jury t) {
-        return juryDao.update(t);
-    }
+  @Override
+  public List<Jury> findAll() {
+    return juryDao.getAll();
+  }
 
-    @Override
-    public boolean delete(Jury t) {
-        return juryDao.delete(t);
-    }
+  @Override
+  public boolean update(Jury t) {
+    return juryDao.update(t);
+  }
 
-    @Override
-    public Jury findOne(int id) {
-        return juryDao.getById(id);
-    }
+  @Override
+  public boolean delete(Jury t) {
+    return juryDao.delete(t);
+  }
 
-    public List<Jury> findByName(String nom){
-        return juryDao.getByName(nom);
-    }
-    
+  @Override
+  public Jury findOne(int id) {
+    return juryDao.getById(id);
+  }
+
+  public List<Jury> findByName(String nom) {
+    return juryDao.getByName(nom);
+  }
 }

@@ -5,99 +5,115 @@ package classes;
  * @author logan
  */
 public class Etudiant {
-    private int id;
-    private String nom;
-    private String prenoms;
-    private boolean actif;
-    private Filiere filiere;
-    
-    // Constructeurs
-    public Etudiant() {
-    }
 
-    public Etudiant(int id, String nom, String prenoms, boolean actif, Filiere filiere) {
-        this.id = id;
-        this.nom = nom;
-        this.prenoms = prenoms;
-        this.actif = actif;
-        this.filiere = filiere;
-    }
+  private int id;
+  private String nom;
+  private String prenoms;
+  private boolean actif;
+  private Filiere filiere;
 
-    public Etudiant(int id, String nom, Filiere filiere) {
-        this.id = id;
-        this.nom = nom;
-        this.filiere = filiere;
-    }
-    
-    public Etudiant(int id, String nom, String prenoms, Filiere filiere) {
-        this.id = id;
-        this.nom = nom;
-        this.prenoms = prenoms;
-        this.filiere = filiere;
-    }
-    
+  // Constructeurs
+  public Etudiant() {}
 
-    public Etudiant(String nom, String prenoms, Filiere filiere) {
-        this.nom = nom;
-        this.prenoms = prenoms;
-        this.filiere = filiere;
-    }
+  public Etudiant(
+    int id,
+    String nom,
+    String prenoms,
+    boolean actif,
+    Filiere filiere
+  ) {
+    this.id = id;
+    this.nom = nom;
+    this.prenoms = prenoms;
+    this.actif = actif;
+    this.filiere = filiere;
+  }
 
-    public Etudiant(String nom, String prenoms) {
-        this.nom = nom;
-        this.prenoms = prenoms;
-    }
+  public Etudiant(int id, String nom, Filiere filiere) {
+    this.id = id;
+    this.nom = nom;
+    this.filiere = filiere;
+  }
 
-    public Etudiant(String nom, Filiere filiere) {
-        this.nom = nom;
-        this.filiere = filiere;
-    }
-    
-    // Getters
-    public int getId() {
-        return id;
-    }
+  public Etudiant(int id, String nom, String prenoms, Filiere filiere) {
+    this.id = id;
+    this.nom = nom;
+    this.prenoms = prenoms;
+    this.filiere = filiere;
+  }
 
-    public String getNom() {
-        return nom;
-    }
+  public Etudiant(String nom, String prenoms, Filiere filiere) {
+    this.nom = nom;
+    this.prenoms = prenoms;
+    this.filiere = filiere;
+  }
 
-    public String getPrenoms() {
-        return prenoms;
-    }
+  public Etudiant(String nom, String prenoms) {
+    this.nom = nom;
+    this.prenoms = prenoms;
+  }
 
-    public boolean isActif() {
-        return actif;
-    }
+  public Etudiant(String nom, Filiere filiere) {
+    this.nom = nom;
+    this.filiere = filiere;
+  }
 
-    public Filiere getFiliere() {
-        return filiere;
-    }
-    
-    // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
+  // Getters
+  public int getId() {
+    return id;
+  }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+  public String getNom() {
+    return nom;
+  }
 
-    public void setPrenoms(String prenoms) {
-        this.prenoms = prenoms;
-    }
+  public String getPrenoms() {
+    return prenoms;
+  }
 
-    public void setActif(boolean actif) {
-        this.actif = actif;
-    }
+  public boolean isActif() {
+    return actif;
+  }
 
-    public void setFiliere(Filiere filiere) {
-        this.filiere = filiere;
-    }
-    
-    // toString
-    @Override
-    public String toString() {
-        return "Etudiant{" + "id=" + id + ", nom=" + nom + ", prenoms=" + prenoms + ", filiere=" + filiere + '}';
-    }
+  public Filiere getFiliere() {
+    return filiere;
+  }
+
+  // Setters
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setNom(String nom) {
+    this.nom = nom;
+  }
+
+  public void setPrenoms(String prenoms) {
+    this.prenoms = prenoms;
+  }
+
+  public void setActif(boolean actif) {
+    this.actif = actif;
+  }
+
+  public void setFiliere(Filiere filiere) {
+    this.filiere = filiere;
+  }
+
+  // toString
+  @Override
+  public String toString() {
+    return (
+      "Etudiant{" +
+      "id=" +
+      id +
+      ", nom=" +
+      nom +
+      ", prenoms=" +
+      prenoms +
+      ", filiere=" +
+      filiere +
+      '}'
+    );
+  }
 }
