@@ -46,7 +46,6 @@ public class RoleDao implements IDao<Role> {
       String sql = "SELECT * FROM role WHERE actif=true";
       statement = connection.prepareStatement(sql);
       ResultSet result = statement.executeQuery();
-
       while (result.next()) {
         list.add(
           new Role(result.getInt(1), result.getString(2), result.getBoolean(3))
@@ -100,6 +99,7 @@ public class RoleDao implements IDao<Role> {
     return role;
   }
 
+  // find user rôle by title
   public List<Role> getByTitre(String titre) {
     List<Role> list = new ArrayList<>();
     try {

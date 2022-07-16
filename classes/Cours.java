@@ -13,6 +13,10 @@ public class Cours extends Document {
   private CategorieCours categorieCours;
 
   // Constructeurs
+  public Cours() {
+    super();
+  }
+
   public Cours(
     Filiere filiere,
     Matiere matiere,
@@ -217,12 +221,24 @@ public class Cours extends Document {
   public String toString() {
     return (
       "Cours{" +
+      "id=" +
+      super.getId() +
+      "titre=" +
+      super.getTitre() +
+      "description=" +
+      super.getDescription() +
+      "actif=" +
+      super.isActif() +
       "filiere=" +
       filiere +
       ", matiere=" +
       matiere +
       ", categorieCours=" +
       categorieCours +
+      "utilisateur=" +
+      super.getUtilisateur() +
+      "date de publication=" +
+      super.getDatePublication() +
       '}'
     );
   }

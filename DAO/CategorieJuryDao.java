@@ -113,7 +113,7 @@ public class CategorieJuryDao implements IDao<CategorieJury> {
     List<CategorieJury> list = new ArrayList<>();
     try {
       String sql =
-        "SELECT * FROM categoriesujet where titre LIKE '%" +
+        "SELECT * FROM categoriesujet where actif=true AND titre LIKE '%" +
         titre +
         "%' AND actif=true";
       statement = connection.prepareStatement(sql);

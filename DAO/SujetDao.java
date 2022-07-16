@@ -1,6 +1,6 @@
 package DAO;
 
-import classes.Cours;
+import classes.Sujet;
 import database.Connexion;
 import interfaces.IDao;
 import java.sql.Connection;
@@ -10,41 +10,42 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
+ * 
  * @author Logan
  */
-public class CoursDao implements IDao<Cours> {
+public class SujetDao implements IDao<Sujet> {
 
   PreparedStatement statement = null;
   Connection connection = null;
   FiliereDao filiereDao = null;
   MatiereDao matiereDao = null;
-  CategorieCoursDao categorieCoursDao = null;
+  CategorieSujetDao categorieSujetDao = null;
   UtilisateurDao utilisateurDao = null;
 
-  public CoursDao() {
+  public SujetDao() {
     connection = new Connexion().getConnexion();
     filiereDao = new FiliereDao();
     matiereDao = new MatiereDao();
-    categorieCoursDao = new CategorieCoursDao();
+    categorieSujetDao = new CategorieSujetDao();
     utilisateurDao = new UtilisateurDao();
   }
 
   @Override
-  public boolean create(Cours t) {
+  public boolean create(Sujet t) {
     boolean status = true;
     try {
       String sql =
-        "INSERT INTO cours(titre, description, datePublication, idUtilisateur, idCategorieCours, idFiliere, idMatiere) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        "INSERT INTO sujet(titre, description, duree, type, idFiliere, idMatiere, idUtilisateur, idCategorieSujet) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
       statement = connection.prepareStatement(sql);
       statement.setString(1, t.getTitre());
       statement.setString(2, t.getDescription());
-      statement.setObject(3, t.getDatePublication());
-      statement.setInt(4, t.getUtilisateur().getId());
-      statement.setInt(5, t.getCategorieCours().getId());
-      statement.setInt(6, t.getFiliere().getId());
-      statement.setInt(7, t.getMatiere().getId());
+      statement.setString(3, t.getDuree());
+      statement.setString(4, t.getType());
+      statement.setInt(5, t.getFiliere().getId());
+      statement.setInt(6, t.getMatiere().getId());
+      statement.setInt(7, t.getUtilisateur().getId());
+      statement.setInt(8, t.getCategoriSujet().getId());
       statement.execute();
     } catch (SQLException e) {
       System.out.println(e.getMessage());
@@ -54,24 +55,26 @@ public class CoursDao implements IDao<Cours> {
   }
 
   @Override
-  public List<Cours> getAll() {
-    List<Cours> list = new ArrayList<>();
+  public List<Sujet> getAll() {
+    List<Sujet> list = new ArrayList<Sujet>();
     try {
-      String sql = "SELECT * FROM cours WHERE actif=true";
+      String sql = "SELECT * FROM sujet WHERE actif=true";
       statement = connection.prepareStatement(sql);
       ResultSet result = statement.executeQuery();
       while (result.next()) {
         list.add(
-          new Cours(
+          new Sujet(
             result.getInt(1),
             result.getString(2),
             result.getString(3),
-            result.getBoolean(4),
-            result.getObject(5, LocalDateTime.class),
-            utilisateurDao.getById(result.getInt(6)),
-            categorieCoursDao.getById(result.getInt(7)),
+            result.getString(4),
+            result.getString(5),
+            result.getBoolean(6),
+            result.getObject(7, LocalDateTime.class),
             filiereDao.getById(result.getInt(8)),
-            matiereDao.getById(result.getInt(9))
+            matiereDao.getById(result.getInt(9)),
+            utilisateurDao.getById(result.getInt(10)),
+            categorieSujetDao.getById(result.getInt(11))
           )
         );
       }
@@ -82,21 +85,23 @@ public class CoursDao implements IDao<Cours> {
   }
 
   @Override
-  public boolean update(Cours t) {
+  public boolean update(Sujet t) {
     boolean status = true;
     try {
       String sql =
-        "UPDATE cours SET titre=?, description=?, actif=?, datePublication=?, idUtuilisateur=?, idCategorieCours=?, idFiliere=?, idMatiere=? WHERE id=?";
+        "UPDATE sujet SET titre=?, description=?, duree=?, type=?, actif=?, datePublication=?, idFiliere=?, idMatiere=?, idUtuilisateur=?, idCategorieSujet=?, WHERE id=?";
       statement = connection.prepareStatement(sql);
       statement.setString(1, t.getTitre());
       statement.setString(2, t.getDescription());
-      statement.setBoolean(3, t.isActif());
-      statement.setObject(4, t.getDatePublication());
-      statement.setInt(5, t.getUtilisateur().getId());
-      statement.setInt(6, t.getCategorieCours().getId());
-      statement.setObject(7, t.getFiliere().getId());
+      statement.setString(3, t.getDuree());
+      statement.setString(4, t.getType());
+      statement.setBoolean(5, t.isActif());
+      statement.setObject(6, t.getDatePublication());
+      statement.setInt(7, t.getFiliere().getId());
       statement.setInt(8, t.getMatiere().getId());
-      statement.setInt(9, t.getId());
+      statement.setObject(9, t.getUtilisateur().getId());
+      statement.setInt(10, t.getCategoriSujet().getId());
+      statement.setInt(11, t.getId());
       statement.execute();
     } catch (SQLException e) {
       System.out.println(e.getMessage());
@@ -106,59 +111,63 @@ public class CoursDao implements IDao<Cours> {
   }
 
   @Override
-  public boolean delete(Cours t) {
+  public boolean delete(Sujet t) {
     t.setActif(false);
     return update(t);
   }
 
   @Override
-  public Cours getById(Integer id) {
-    Cours cours = null;
+  public Sujet getById(Integer id) {
+    Sujet sujet = null;
     try {
-      String sql = "SELECT * FROM cours WHERE actif=true AND id=?";
+      String sql = "SELECT * FROM sujet WHERE actif=true AND id=?";
       statement = connection.prepareStatement(sql);
       statement.setInt(1, id);
       ResultSet result = statement.executeQuery();
       while (result.next()) {
-        cours =
-          new Cours(
+        sujet =
+          new Sujet(
             result.getInt(1),
             result.getString(2),
             result.getString(3),
-            result.getBoolean(4),
-            result.getObject(5, LocalDateTime.class),
-            utilisateurDao.getById(result.getInt(6)),
-            categorieCoursDao.getById(result.getInt(7)),
+            result.getString(4),
+            result.getString(5),
+            result.getBoolean(6),
+            result.getObject(7, LocalDateTime.class),
             filiereDao.getById(result.getInt(8)),
-            matiereDao.getById(result.getInt(9))
+            matiereDao.getById(result.getInt(9)),
+            utilisateurDao.getById(result.getInt(10)),
+            categorieSujetDao.getById(result.getInt(11))
           );
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
-    return cours;
+    return sujet;
   }
 
-  // find courses by title
-  public List<Cours> findByTitle(String titre) {
-    List<Cours> list = new ArrayList<>();
+  // Find subject by title
+  public List<Sujet> findByTitle(String titre) {
+    List<Sujet> list = new ArrayList<Sujet>();
     try {
       String sql =
-        "SELECT * FROM cours WHERE actif=true AND titre LIKE %" + titre + "%";
+        "SELECT * FROM sujet WHERE actif=true AND titre LIKE %" + titre + "%";
       statement = connection.prepareStatement(sql);
       ResultSet result = statement.executeQuery();
       while (result.next()) {
         list.add(
-          new Cours(
+          new Sujet(
             result.getInt(1),
             result.getString(2),
             result.getString(3),
-            result.getBoolean(4),
-            result.getObject(5, LocalDateTime.class),
-            utilisateurDao.getById(result.getInt(6)),
-            categorieCoursDao.getById(result.getInt(7)),
+            result.getString(4),
+            result.getString(5),
+            result.getBoolean(6),
+            result.getObject(7, LocalDateTime.class),
             filiereDao.getById(result.getInt(8)),
-            matiereDao.getById(result.getInt(9))
+            matiereDao.getById(result.getInt(9)),
+            utilisateurDao.getById(result.getInt(10)),
+            categorieSujetDao.getById(result.getInt(11))
           )
         );
       }

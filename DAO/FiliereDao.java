@@ -115,7 +115,7 @@ public class FiliereDao implements IDao<Filiere> {
     List<Filiere> list = new ArrayList<>();
     try {
       String sql =
-        "SELECT * FROM filiere where titre LIKE '%" +
+        "SELECT * FROM filiere where actif=true AND titre LIKE '%" +
         titre +
         "%' AND actif=true";
       statement = connection.prepareStatement(sql);

@@ -16,6 +16,8 @@ public class Document {
   private LocalDateTime datePublication;
 
   // Contructeurs
+  public Document() {}
+
   public Document(
     int id,
     String titre,

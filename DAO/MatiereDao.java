@@ -112,7 +112,7 @@ public class MatiereDao implements IDao<Matiere> {
     List<Matiere> list = new ArrayList<>();
     try {
       String sql =
-        "SELECT * FROM matiere where titre LIKE '%" +
+        "SELECT * FROM matiere where actif=true AND titre LIKE '%" +
         titre +
         "%' AND actif=true";
       statement = connection.prepareStatement(sql);
